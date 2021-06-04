@@ -1,0 +1,30 @@
+[
+    {
+     "orderId":1,
+     "name":"John Smith",
+     "date":"25.02.2020",
+     "fine":true,
+     "products":[
+       {
+         "name":"mouse",
+         "price":20.25
+       },
+       {
+         "name":"keyboard",
+         "price":70.99
+       }
+     ]
+   },
+   {
+     "orderId":2,
+     "name":"Olivia Nick",
+     "date":"27.02.2020",
+     "fine":false,
+     "products":[
+       {
+         "name":"lamp",
+         "price":10.00
+       }
+     ]
+    }
+   ]

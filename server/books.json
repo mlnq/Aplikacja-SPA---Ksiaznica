@@ -1,0 +1,26 @@
+[
+   {
+     "bookId":1,
+     "title":"Heli kopter",
+     "autor":"Jan Kowalski",
+     "rating":8.9,
+     "date":"25.02.2022",
+     "released":false
+   },
+   {
+    "bookId":2,
+    "title":"Sam olot",
+    "autor":"Janina Kowalska",
+    "rating":4.9,
+    "date":"21.04.1992",
+    "released":true
+  },
+  {
+   "bookId":3,
+   "title":"Sam ochód",
+   "autor":"Pan Tik Tak",
+   "rating":7.2,
+   "date":"11.01.1998",
+   "released":true
+ }
+]

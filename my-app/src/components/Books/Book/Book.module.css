@@ -1,0 +1,23 @@
+.hotel{
+    margin-bottom:  20px;
+    background-color: rgb(247, 247, 247);
+}
+.cardMargin{
+    margin-bottom:  20px;
+}
+
+.title{
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.description{
+    color: gray;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+.float-right{
+    float: right;
+}
