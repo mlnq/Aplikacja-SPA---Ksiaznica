@@ -1,35 +1,15 @@
-import { stringify } from "querystring";
-import { useState } from "react";
 import styles from "./Book.module.css";
 
-function AddBook(props: any) {
-
-   const [form,setForm] = useState({
-    title: '',
-    author: '',
-    rating: 0,
-    date: '01.01.0001',
-    released: [],
-    description: ''
-   })
-
-   const submit =(e:any)=>{
-
-        e.preventDefault();
-
-   }
-
+function EditBook(props: any) {
   return (
     <>
-      <h1 className="header"> Dodaj książkę</h1>
-
+      <h1 className="header">Edytuj dane książki</h1>
       <div className={`card ${styles.hotel}`}>
         <div className="card-body">
-          <form onSubmit={submit}>
+          <form>
             <div className="form-group">
               <label>Nazwa książki</label>
               <input
-                value={form.title}
                 type="text"
                 className="form-control"
                 id="BookName"
@@ -40,7 +20,6 @@ function AddBook(props: any) {
             <div className="form-group">
               <label>Autor</label>
               <input
-                value={form.author}
                 type="text"
                 className="form-control"
                 id="BookAuthor"
@@ -51,7 +30,6 @@ function AddBook(props: any) {
             <div className="form-group">
               <label>Ocena</label>
               <input
-                value={form.rating}
                 type="numeric"
                 className="form-control"
                 id="BookRating"
@@ -65,7 +43,6 @@ function AddBook(props: any) {
             <div className="form-group">
               <label>Data wydania</label>
               <input
-                value={form.date}
                 type="text"
                 className="form-control"
                 id="BookReleaseDate"
@@ -75,28 +52,22 @@ function AddBook(props: any) {
             </div>
 
             <div className="form-group">
-              <label className="custom-control-label">Książka wydrukowana... </label>
-              <input 
-              className="bg-primary custom-control custom-checkbox" 
-              type="checkbox"
-              value="published"
-              checked={(form.released.find((x:any) => x === "published"))}
-              id="published" 
-              />
+              <label>Książka wydrukowana... </label>
+              <input className="bg-primary" type="checkbox" id="BookPrint" />
               <br />
               <br />
             </div>
 
             <div className="form-group">
               <label>Wprowadź opis książki</label>
-              <textarea value={form.description} className="form-control" id="BookDesc" />
+              <textarea className="form-control" id="BookDesc" />
 
               <br />
             </div>
 
             <br />
-            <button className="btn btn-primary">
-              Dodaj książkę 
+            <button type="submit" className="btn btn-primary">
+              Dodaj
             </button>
           </form>
         </div>
@@ -105,4 +76,4 @@ function AddBook(props: any) {
   );
 }
 
-export default AddBook;
+export default EditBook;

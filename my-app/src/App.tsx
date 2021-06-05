@@ -1,3 +1,4 @@
+import {BrowserRouter as Router,Route} from 'react-router-dom'
 import React from "react";
 import logo from "./logo.svg";
 import "./App.scss";
@@ -7,6 +8,8 @@ import Menu from "./components/Menu/Menu";
 import Books from "./components/Books/Books";
 import { getAllBooks , deleteBook} from './api/BooksApi';
 import { useState, useEffect } from 'react';
+import AddBook from "./components/Books/Book/AddBook"
+import EditBook from './components/Books/Book/EditBook';
 
 function App() {
 
@@ -26,20 +29,31 @@ function App() {
   });
 
 
+  const calculateBookId = () => {
+    let list = booksData;
+    let maxId = 0;
+    if (list.length > 0)
+      list.forEach((book) => {
+        if (book.bookId >= maxId)
+          maxId = book.bookId;
+      });
+    return maxId + 1;
+  }
+
   const updateBooksList = (action:any, body:any) => {
     switch (action) {
-      // case "PUSH":
-      //   setBooksData(() => {
-      //     var list = booksData;
-      //     var newNote = {
-      //       noteId: this.calculateNoteId(),
-      //     };
+      case "PUSH":
+        setBooksData(() => {
+          let list = booksData;
+          let newBook = {
+            bookId: calculateBookId(),
+          };
 
-      //     Object.assign(newNote, body);
-      //     list.push(newNote);
-      //     return { notesList: list };
-      //   });
-      //   break;
+          Object.assign(newBook, body);
+          list.push(newBook);
+          return [...list];
+        });
+        break;
       // case "PUT":
       //   setBooksData(()=>{
       //     var list = booksData;
@@ -55,12 +69,12 @@ function App() {
       //   });
       //   break;
       case "DELETE":
-        setBooksData(
+          setBooksData(
           () => {
-          let list = booksData;
-          let bookIndex = list.findIndex(book => book.bookId === body);
-          list.splice(bookIndex);
-          return list ;
+                  let list = booksData;
+                  let bookIndex = list.findIndex(book => book.bookId === body);
+                  list.splice(bookIndex,1);//3 parametr -> podmianka
+                  return [...list] ;
           }
         );
         break;
@@ -68,29 +82,56 @@ function App() {
         break;
     }
   }
-  // const deleteBook  = (id:number) => 
-  // {       
-  //   deleteBook(id).then
-  //   (
-  //     (response:any) => {
-  //       if (response.status === 204) {
-  //           updateBooksList("DELETE", id)
-  //       }
-  //     }
-  //     );
-  // }
+
+  const deleteBookData  = (id:number) => 
+  {       
+    console.log("App przed delete")
+    deleteBook(id).then
+    (
+      (response:any) => {
+        if (response.status === 204) {
+          console.log("jestem w app w 204")
+            updateBooksList("DELETE", id)
+        }
+      }
+      );
+  }
   
 
-  //const sortBookAscendRating = [].concat(booksData)
-  //  .sort((a,b) => a.rating > b.rating ? 1 : -1);
-  
+  const AddBookData = () => {
+    
+   
+  }
+
+
+
+
+
+
+
+
+
   return (
+    <Router>
     <div className="App">
       <Header className="" />
-      <Books books={booksData} />
-      <Menu />
-      <Footer />
+
+      <Route exact path="/">
+            <Books books={booksData} deleteBookData={deleteBookData}/>
+      </Route>
+
+      <Route path="/AddBook">
+            <AddBook></AddBook>
+      </Route>
+
+      <Route path="/EditBook">
+            <EditBook></EditBook>
+      </Route>
+
+
     </div>
+      <Footer />
+    </Router>
   );
 }
 

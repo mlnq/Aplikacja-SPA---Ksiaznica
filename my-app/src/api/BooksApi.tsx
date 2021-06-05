@@ -54,6 +54,7 @@ export const editBook = (id:number, body:any) => {
 export const deleteBook = (id:number) => {
     return axios.delete("/book/" + id)
         .then(response => {
+            console.log(response)
             return response;
         })
         .catch((error) => {

@@ -32,6 +32,8 @@ app.get('/books', (req, res) => {
     });
 });
 
+
+
 //BOOKS GET: id 
 app.get('/book/:id', (req, res) => {
     fs.readFile('./books.json', 'utf8', (err, ordersJson) => {
@@ -53,7 +55,7 @@ app.get('/book/:id', (req, res) => {
     });
 });
 
-//BOOK APP- POST:
+//BOOK ADD- POST:
 app.post('/book', (req, res) => {
     fs.readFile('./books.json', 'utf8', (err, ordersJson) => {
         if (err) {
@@ -133,7 +135,7 @@ app.put('/book/:id', (req, res) => {
 
 //BOOK DELETE
 app.delete('/book/:id', (req, res) => {
-    fs.readFile('./orders.json', 'utf8', (err, ordersJson) => {
+    fs.readFile('./books.json', 'utf8', (err, ordersJson) => {
         if (err) {
             console.log("File read failed in DELETE /orders: "+ err);
             res.status(500).send('File read failed');
@@ -144,7 +146,7 @@ app.delete('/book/:id', (req, res) => {
         if (orderIndex != -1) {
             orders.splice(orderIndex, 1);
             var newList = JSON.stringify(orders);
-            fs.writeFile('./orders.json', newList, err => {
+            fs.writeFile('./books.json', newList, err => {
                 if (err) {
                     console.log("Error writing file in DELETE /orders/" + req.params.id+": "+ err);
                     res.status(500).send('Error writing file orders.json');

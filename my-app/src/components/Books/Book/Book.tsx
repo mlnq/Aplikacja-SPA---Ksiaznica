@@ -1,6 +1,17 @@
 import styles from './Book.module.css'
+import {Link} from 'react-router-dom'
 
 function Hotel(props:any) {
+
+
+
+ const onDelete = () => {
+    props.deleteBookData(props.bookId);
+    console.log(props.bookId);
+    console.log("usuniete")
+  }
+
+
 
   const imageURL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png'
     return (
@@ -18,10 +29,15 @@ function Hotel(props:any) {
                 </div>
                 <div className="col text-end">
                   <h2>Ocena: {props.rating}</h2>
-                  <a href="#" className="btn btn-primary  float-end mt-2 px-5 ml-2 mr-2">
+                  <button  className="btn btn-primary  float-end mt-2 px-5 ml-2 mr-2">
                   Pokaż 
-                  </a>
-                  <a href="#" className="btn btn-danger float-end mt-2 px-5">Usuń</a>
+                  </button>
+                  <button onClick={()=>onDelete()} className="btn btn-danger float-end mt-2 px-5">Usuń</button>
+                  <Link to={'/EditBook'}>
+                  <button  className="btn btn-primary  float-end mt-2 px-5 ml-2 mr-2">
+                    Edytuj dane
+                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

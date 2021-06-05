@@ -1,11 +1,15 @@
+import {Link} from 'react-router-dom'
+
 function Header(props: any) {
   return (
     <div className="container mb-5 mt-4">
       <div className="row align-items-center">
           <ul className="nav ">
-          <a className="navbar-brand" href="#">
-            Książnica
-          </a>
+            <Link to={'/'}>
+                <p className="navbar-brand text-primary text-decoration-none" >
+                  Książnica
+                </p>
+            </Link>
 
             <li className="nav-item text-secondary">
                 <a className="nav-link active" aria-current="page" href="#">Active</a>
