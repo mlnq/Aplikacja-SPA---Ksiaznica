@@ -1,23 +1,35 @@
 import { stringify } from "querystring";
 import { useState } from "react";
 import styles from "./Book.module.css";
+import {useHistory} from 'react-router-dom'
 
-function AddBook(props: any) {
+function AddBook(props:any) {
 
-   const [form,setForm] = useState({
-    title: '',
-    author: '',
+  const history = useHistory(); 
+
+  const [form, setForm] = useState({
+    title: "",
+    author: "",
     rating: 0,
-    date: '01.01.0001',
-    released: [],
-    description: ''
-   })
+    date: "01.01.0001",
+    released:  "",
+    description: "",
+  });
 
-   const submit =(e:any)=>{
-
-        e.preventDefault();
-
-   }
+  const submit = (e: any) => {
+    e.preventDefault();
+    props.addBook(form);
+    history.push("/");
+  };
+  const inputOnChange = (e: any) => {
+      const {name,value} = e.target;
+      let val =value;
+      if(e.target.type==="number") val= Number(val);
+      setForm(prev => ({
+          ...prev,
+          [name]: val
+      }));
+  };
 
   return (
     <>
@@ -32,8 +44,9 @@ function AddBook(props: any) {
                 value={form.title}
                 type="text"
                 className="form-control"
-                id="BookName"
+                name="title"
                 placeholder="Wprowadź tytuł książki.."
+                onChange={inputOnChange}
               />
               <br />
             </div>
@@ -43,8 +56,9 @@ function AddBook(props: any) {
                 value={form.author}
                 type="text"
                 className="form-control"
-                id="BookAuthor"
+                name="author"
                 placeholder="Wprowadź nazwę autora"
+                onChange={inputOnChange}
               />
               <br />
             </div>
@@ -52,10 +66,12 @@ function AddBook(props: any) {
               <label>Ocena</label>
               <input
                 value={form.rating}
-                type="numeric"
+                type="number"
                 className="form-control"
-                id="BookRating"
+                name="rating"
                 placeholder="Oceń książkę.."
+                onChange={inputOnChange}
+                pattern="[0-9]*"
               />
               <br />
             </div>
@@ -68,20 +84,25 @@ function AddBook(props: any) {
                 value={form.date}
                 type="text"
                 className="form-control"
-                id="BookReleaseDate"
+                name="date"
                 placeholder="Podaj datę wydania.."
+                onChange={inputOnChange}
               />
               <br />
             </div>
 
             <div className="form-group">
-              <label className="custom-control-label">Książka wydrukowana... </label>
-              <input 
-              className="bg-primary custom-control custom-checkbox" 
-              type="checkbox"
-              value="published"
-              checked={(form.released.find((x:any) => x === "published"))}
-              id="published" 
+              <label className="custom-control-label">
+                Książka wydrukowana...{" "}
+              </label>
+              <input
+                className="bg-primary custom-control custom-checkbox"
+                type="checkbox"
+                value="published"
+
+                checked={form.released === "published"}
+                name="released"
+                onChange={inputOnChange}
               />
               <br />
               <br />
@@ -89,15 +110,18 @@ function AddBook(props: any) {
 
             <div className="form-group">
               <label>Wprowadź opis książki</label>
-              <textarea value={form.description} className="form-control" id="BookDesc" />
+              <textarea
+                value={form.description}
+                className="form-control"
+                name="description"
+                onChange={inputOnChange}
+              />
 
               <br />
             </div>
 
             <br />
-            <button className="btn btn-primary">
-              Dodaj książkę 
-            </button>
+            <button className="btn btn-primary">Dodaj książkę</button>
           </form>
         </div>
       </div>

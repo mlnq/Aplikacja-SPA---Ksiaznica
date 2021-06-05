@@ -56,7 +56,7 @@ app.get('/book/:id', (req, res) => {
 });
 
 //BOOK ADD- POST:
-app.post('/book', (req, res) => {
+app.post('/books', (req, res) => {
     fs.readFile('./books.json', 'utf8', (err, ordersJson) => {
         if (err) {
             console.log("File read failed in POST /books: "+ err);

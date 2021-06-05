@@ -6,7 +6,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Menu from "./components/Menu/Menu";
 import Books from "./components/Books/Books";
-import { getAllBooks , deleteBook} from './api/BooksApi';
+import { getAllBooks , deleteBook, addBook} from './api/BooksApi';
 import { useState, useEffect } from 'react';
 import AddBook from "./components/Books/Book/AddBook"
 import EditBook from './components/Books/Book/EditBook';
@@ -29,7 +29,7 @@ function App() {
   });
 
 
-  const calculateBookId = () => {
+  const calcBookId = () => {
     let list = booksData;
     let maxId = 0;
     if (list.length > 0)
@@ -37,7 +37,7 @@ function App() {
         if (book.bookId >= maxId)
           maxId = book.bookId;
       });
-    return maxId + 1;
+    return maxId + 1 ;
   }
 
   const updateBooksList = (action:any, body:any) => {
@@ -45,29 +45,27 @@ function App() {
       case "PUSH":
         setBooksData(() => {
           let list = booksData;
+          let id = calcBookId();
+          debugger;
           let newBook = {
-            bookId: calculateBookId(),
+            ...body,
+            bookId: id
           };
-
-          Object.assign(newBook, body);
-          list.push(newBook);
-          return [...list];
+          return [...list,newBook];
         });
         break;
-      // case "PUT":
-      //   setBooksData(()=>{
-      //     var list = booksData;
-      //     var noteIndex = list.findIndex(note => note.noteId === body.noteId);
-      //     list[noteIndex].title = body.title;
-      //     list[noteIndex].category = body.category;
-      //     list[noteIndex].content = body.content;
-      //     list[noteIndex].status = body.status;
-      //     list[noteIndex].time = body.time;
-      //     list[noteIndex].date = body.date;
+     
+      case "PUT":
+          setBooksData(
+          () => {
+                  let list = booksData;
+                  let bookIndex = list.findIndex(book => book.bookId === body);
+                  list.splice(bookIndex,1,body);
+                  return [...list] ;
+          }
+        );
+      break;
 
-      //     return { notesList: list };
-      //   });
-      //   break;
       case "DELETE":
           setBooksData(
           () => {
@@ -98,34 +96,90 @@ function App() {
   }
   
 
-  const AddBookData = () => {
-    
-   
+  const addBookData = (data:any) => {
+    data.bookId=calcBookId();
+    addBook(data).then
+    (
+      (response:any) => {
+        if (true) {
+          console.log("jestem w app w true")
+            updateBooksList("PUSH",data)
+        }
+      }
+      );
+  }
+  const editBookData = (data:any) => {
+    // data.bookId=calcBookId();
+    // addBook(data).then
+    // (
+    //   (response:any) => {
+    //     if (true) {
+    //       console.log("jestem w app w true")
+    //         updateBooksList("PUSH",data)
+    //     }
+    //   }
+    //   );
   }
 
+  const sortBookAscendRating = () => {
+    const sorted = booksData.sort((a,b) => parseFloat(b.rating) - parseFloat(a.rating));
+    setBooksData([...sorted]);
+    console.log(booksData);
+  }
+  const sortBookDescendRating = () => {
+    const sorted = booksData.sort((a,b) => parseFloat(a.rating) - parseFloat(b.rating));
+    setBooksData([...sorted]);
+    console.log(booksData);
+  }
+  const sortBookAZ = () => {
+    const sorted = booksData.sort((a,b) => b.title < a.title ? 1 : -1);
+    setBooksData([...sorted]);
+    console.log(booksData);
+  }
+  const sortBookZA = () => {
+    const sorted = booksData.sort((a,b) => b.title > a.title ? 1 : -1);
+    setBooksData([...sorted]);
+    console.log(booksData);
+  }
+  const cancelSort = () => {
+    const notSorted = booksData.sort((a,b) => parseInt(a.bookId) - parseInt(b.bookId));
+    setBooksData([...notSorted]);
+    console.log(booksData);
+  }
+
+const Sort = [sortBookAscendRating,sortBookDescendRating,sortBookAZ,sortBookZA,cancelSort];
 
 
 
 
-
-
-
-
-  return (
+  return (  
     <Router>
     <div className="App">
       <Header className="" />
 
+      {/* @todo ogarnac przejrzystosc kodu */}
+      <div className="container">
+    <button type="button" className="btn btn-primary mb-5" onClick={ sortBookAscendRating }
+    >Sortuj od najlepszej oceny</button>
+    <button type="button" className="btn btn-primary mb-5" onClick={ sortBookDescendRating }
+    >Sortuj od najgorszej oceny</button>
+    <button type="button" className="btn btn-primary mb-5" onClick={ sortBookAZ }
+    >Sortuj od A do Z</button>
+    <button type="button" className="btn btn-primary mb-5" onClick={ sortBookZA }
+    >Sortuj od Z do A</button>
+    <button type="button" className="btn btn-primary mb-5" onClick={ cancelSort }
+    >Anuluj sortowanie</button> 
+    </div>
       <Route exact path="/">
-            <Books books={booksData} deleteBookData={deleteBookData}/>
+            <Books books={booksData} deleteBookData={deleteBookData} addBookData={addBookData} editBookData={editBookData} sort={Sort}/>
       </Route>
 
       <Route path="/AddBook">
-            <AddBook></AddBook>
-      </Route>
+                <AddBook addBook={addBookData}></AddBook>
+          </Route>
 
       <Route path="/EditBook">
-            <EditBook></EditBook>
+                <EditBook book={editBookData}></EditBook>
       </Route>
 
 

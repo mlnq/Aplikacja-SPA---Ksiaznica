@@ -24,8 +24,8 @@ function Hotel(props:any) {
             <div className="col-8">
               <div className="row">
                 <div className="col">
-                  <p className={styles.title}>{props.name}</p>
-                  <span className="badge rounded-pill bg-primary" >{props.city}</span>
+                  <p className={styles.title}>{props.title}</p>
+                  <span className="badge rounded-pill bg-primary" >{props.autor}</span>
                 </div>
                 <div className="col text-end">
                   <h2>Ocena: {props.rating}</h2>
