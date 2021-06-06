@@ -1,22 +1,44 @@
 import { useState } from "react";
 import styles from "./Book.module.css";
-import {useHistory} from 'react-router-dom'
+import {useHistory, useParams} from 'react-router-dom'
+import { getBookById} from '../../../api/BooksApi';
+import { useEffect } from 'react';
 
 function EditBook(props: any) {
-    const history = useHistory(); 
+  const history = useHistory(); 
 
-    const [form, setForm] = useState({
+  const {id}: any = useParams();
+
+  //stany
+  const [form, setForm] = useState({
       title: "",
       author: "",
-      rating: 0,
-      date: "01.01.0001",
+      rating: "",
+      date: "",
       released:  "",
       description: "",
     });
+    
+  //   const fetchBook =  async () =>{
+      
+  //     // let res = await getBookById(id);
+  //     const bookData:any = await getBookById(id);
   
+  //     setBook(bookData);
+  //     console.log(book);
+  // } 
+
+
+  useEffect(() => {
+    getBookById(id).then(bookData => setForm({...bookData}));
+  },[id])
+
+
     const submit = (e: any) => {
       e.preventDefault();
-      props.addBook(form);
+      props.editBook(
+                      {bookId: id,...form}
+                      );
       history.push("/");
     };
     const inputOnChange = (e: any) => {

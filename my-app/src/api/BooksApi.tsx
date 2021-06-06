@@ -12,7 +12,7 @@ export const getAllBooks = () => {
 }
 
 export const getBookById = (id:any) => {
-    return axios.get('book/' + id)
+    return axios.get('books/' + id)
         .then((response) => {
             return response.data;
         })
@@ -42,7 +42,9 @@ export const addBook = (body:any) => {
 }
 
 export const editBook = (id:number, body:any) => {
-    return axios.put("/book/" + id, body)
+
+    console.log(id,body);
+    return axios.put("/books/" + id, body)
         .then((response) => {
             return response;
         })

@@ -4,29 +4,34 @@ import logo from "./logo.svg";
 import "./App.scss";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import Menu from "./components/Menu/Menu";
 import Books from "./components/Books/Books";
-import { getAllBooks , deleteBook, addBook} from './api/BooksApi';
+import { getAllBooks , deleteBook, addBook, editBook} from './api/BooksApi';
 import { useState, useEffect } from 'react';
 import AddBook from "./components/Books/Book/AddBook"
 import EditBook from './components/Books/Book/EditBook';
+import DetailsBook from './components/Books/Book/DetailsBook';
 
 function App() {
 
-  
   const [booksData, setBooksData] = useState<any[]>([]);
   
+
+  //@TODO PROBLEM z SEARCH -- zapisywanie stanu poprzedniego
   // Montowanie danych
   useEffect(() => 
   {
-    if(booksData.length ===  0)
-    (
-     async ()=> { 
-       setBooksData([...(await getAllBooks())]);
-      }
-   )()
+
+    getAllBooks().then(data=> setBooksData(data));
+
+     
+  //   if(booksData.length ===  0)
+  //   (
+  //    async ()=> { 
+  //      setBooksData([...(await getAllBooks())]);
+  //     }
+  //  )()
     console.log("komponent zamontowany");
-  });
+  },[]);
 
 
   const calcBookId = () => {
@@ -59,7 +64,7 @@ function App() {
           setBooksData(
           () => {
                   let list = booksData;
-                  let bookIndex = list.findIndex(book => book.bookId === body);
+                  let bookIndex = list.findIndex(book => book.bookId === body.bookId);
                   list.splice(bookIndex,1,body);
                   return [...list] ;
           }
@@ -109,45 +114,29 @@ function App() {
       );
   }
   const editBookData = (data:any) => {
-    // data.bookId=calcBookId();
-    // addBook(data).then
-    // (
-    //   (response:any) => {
-    //     if (true) {
-    //       console.log("jestem w app w true")
-    //         updateBooksList("PUSH",data)
-    //     }
-    //   }
-    //   );
+    editBook(data.bookId,{...data}).then
+    (
+      (response:any) => {
+        if (true) {
+          console.log("jestem w app w true")
+            updateBooksList("PUT",data)
+
+        }
+      }
+      );
   }
 
-  const sortBookAscendRating = () => {
-    const sorted = booksData.sort((a,b) => parseFloat(b.rating) - parseFloat(a.rating));
-    setBooksData([...sorted]);
-    console.log(booksData);
-  }
-  const sortBookDescendRating = () => {
-    const sorted = booksData.sort((a,b) => parseFloat(a.rating) - parseFloat(b.rating));
-    setBooksData([...sorted]);
-    console.log(booksData);
-  }
-  const sortBookAZ = () => {
-    const sorted = booksData.sort((a,b) => b.title < a.title ? 1 : -1);
-    setBooksData([...sorted]);
-    console.log(booksData);
-  }
-  const sortBookZA = () => {
-    const sorted = booksData.sort((a,b) => b.title > a.title ? 1 : -1);
-    setBooksData([...sorted]);
-    console.log(booksData);
-  }
-  const cancelSort = () => {
-    const notSorted = booksData.sort((a,b) => parseInt(a.bookId) - parseInt(b.bookId));
-    setBooksData([...notSorted]);
-    console.log(booksData);
+  //filtrowanie
+  const searchHandler = (term:any) =>{
+    const books = [...booksData]
+                      .filter(x => x.title.toLowerCase()
+                        .includes(term.toLowerCase()));
+    setBooksData(books);
+    ///UŁOMNIE ALE DZIALA
+    if(term==="")  getAllBooks().then(data=> setBooksData(data));
+    
   }
 
-const Sort = [sortBookAscendRating,sortBookDescendRating,sortBookAZ,sortBookZA,cancelSort];
 
 
 
@@ -155,32 +144,24 @@ const Sort = [sortBookAscendRating,sortBookDescendRating,sortBookAZ,sortBookZA,c
   return (  
     <Router>
     <div className="App">
-      <Header className="" />
-
-      {/* @todo ogarnac przejrzystosc kodu */}
-      <div className="container">
-    <button type="button" className="btn btn-primary mb-5" onClick={ sortBookAscendRating }
-    >Sortuj od najlepszej oceny</button>
-    <button type="button" className="btn btn-primary mb-5" onClick={ sortBookDescendRating }
-    >Sortuj od najgorszej oceny</button>
-    <button type="button" className="btn btn-primary mb-5" onClick={ sortBookAZ }
-    >Sortuj od A do Z</button>
-    <button type="button" className="btn btn-primary mb-5" onClick={ sortBookZA }
-    >Sortuj od Z do A</button>
-    <button type="button" className="btn btn-primary mb-5" onClick={ cancelSort }
-    >Anuluj sortowanie</button> 
-    </div>
+      <Header  />
+      
       <Route exact path="/">
-            <Books books={booksData} deleteBookData={deleteBookData} addBookData={addBookData} editBookData={editBookData} sort={Sort}/>
+            <Books books={booksData} deleteBookData={deleteBookData} setBooks={setBooksData} onSearch={searchHandler}/>
+      </Route>
+
+      <Route path="/EditBook/:id">
+                <EditBook editBook={editBookData}></EditBook>
       </Route>
 
       <Route path="/AddBook">
                 <AddBook addBook={addBookData}></AddBook>
-          </Route>
-
-      <Route path="/EditBook">
-                <EditBook book={editBookData}></EditBook>
       </Route>
+
+      <Route path="/DetailsBook/:id">
+                <DetailsBook addBook={addBookData}></DetailsBook>
+      </Route>
+     
 
 
     </div>

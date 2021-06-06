@@ -29,13 +29,16 @@ function Hotel(props:any) {
                 </div>
                 <div className="col text-end">
                   <h2>Ocena: {props.rating}</h2>
-                  <button  className="btn btn-primary  float-end mt-2 px-5 ml-2 mr-2">
-                  Pokaż 
-                  </button>
+                  
                   <button onClick={()=>onDelete()} className="btn btn-danger float-end mt-2 px-5">Usuń</button>
-                  <Link to={'/EditBook'}>
+                  <Link to={`/EditBook/${props.bookId}`}>
                   <button  className="btn btn-primary  float-end mt-2 px-5 ml-2 mr-2">
-                    Edytuj dane
+                    Edytuj
+                  </button>
+                  </Link>
+                  <Link to={`/DetailsBook/${props.bookId}`}>
+                  <button  className="btn btn-primary  float-end mt-2 px-5 ml-2 mr-2">
+                    Wyświetl
                   </button>
                   </Link>
                 </div>

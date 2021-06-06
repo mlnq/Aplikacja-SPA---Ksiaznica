@@ -24,7 +24,7 @@ function Header(props: any) {
                 <a className="nav-link disabled" href="#"aria-disabled="true">W krótce ...</a>
             </li>
             </ul>
-                    
+
        
       </div>
     </div>
