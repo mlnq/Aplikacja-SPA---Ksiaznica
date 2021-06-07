@@ -15,7 +15,7 @@
   
 - ? (+1) - bardziej złożona niż sam CRUD logika, pasująca do tematu projektu
 - (+1) - wszelkie inne sensowne i nietrywialne dodatki wzbogacające aplikację
-- (+1) - wysoki user experience (wygoda, atrakcyjność, obecność grafik i animacji, responsywność)
+- [OK_+/-] (+1) - wysoki user experience (wygoda, atrakcyjność, obecność grafik i animacji, responsywność)
 
 @TODO
 - Autorzy - podpiąć pod książkę id autora itp.. tylko czy to nie zadużo roboty ?!

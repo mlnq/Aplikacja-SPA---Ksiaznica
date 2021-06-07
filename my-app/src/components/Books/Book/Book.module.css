@@ -21,3 +21,7 @@
 .float-right{
     float: right;
 }
+
+.marginRight{
+    margin-right: 10px;
+}

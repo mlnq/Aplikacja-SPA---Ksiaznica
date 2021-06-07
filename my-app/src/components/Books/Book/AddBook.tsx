@@ -2,25 +2,23 @@ import { useState, useEffect } from "react";
 import styles from "./Book.module.css";
 import { useHistory } from "react-router-dom";
 import * as Icon from "react-bootstrap-icons";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { withStyles } from "@material-ui/core/styles";
 import Rating, { IconContainerProps } from "@material-ui/lab/Rating";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import StarsRoundedIcon from "@material-ui/icons/StarsRounded";
-
-import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { Controller } from "react-hook-form";
+import TextField from "@material-ui/core/TextField";
+// import DatePicker from "react-datepicker";
+//import DesktopDatePicker from "@material-ui/lab/DesktopDatePicker";
 
 function AddBook(props: any) {
   const history = useHistory();
   const [button, setButton] = useState(false);
   const [starRate, setRating] = useState(1);
+  const [birthDate, setBirthDate] = useState(null);
 
   const [form, setForm] = useState({
     title: "",
     author: "",
-    date: "01.01.0001",
+    date: birthDate,
     released: "",
     description: "",
     rating: starRate,
@@ -40,8 +38,6 @@ function AddBook(props: any) {
     if (
       form.title.length > 4 &&
       form.author.length !== 0 &&
-      form.rating > 0 &&
-      form.rating <= 10 &&
       form.description.length > 30
     ) {
       setButton(true);
@@ -58,10 +54,10 @@ function AddBook(props: any) {
 
   const StyledRating = withStyles({
     iconFilled: {
-      color: "#ff6d75",
+      color: "#0c6d38",
     },
     iconHover: {
-      color: "#ff3d47",
+      color: "#0c6d38",
     },
   })(Rating);
 
@@ -108,16 +104,6 @@ function AddBook(props: any) {
             </div>
             <div className="form-group">
               <label>Ocena</label>
-              {/* <input
-                value={form.rating}
-                type="number"
-                className={`form-control ${form.rating > 0 && form.rating <=10 ? 'is-valid' : 'is-invalid'}`}
-                name="rating"
-                placeholder="Oceń książkę.."
-                onChange={inputOnChange}
-                pattern="[0-9]*"
-              /> */}
-
               <Box component="fieldset" mb={3} borderColor="transparent">
                 <StyledRating
                   name="customized-10"
@@ -127,34 +113,32 @@ function AddBook(props: any) {
                   onChange={(e, value: any) => {
                     setRating(value);
                     form.rating = value;
-                   
-                  }}  
+                  }}
                 />
               </Box>
-              <div className="invalid-feedback">Niepoprawna ocena ksiażki!</div>
-              <div className="valid-feedback">Wszystko jest w porządku!</div>
-              <br />
             </div>
             {/* zrobic eleganckie input na date moze callendar component?
              */}
 
             <div className="form-group">
               <label>Data wydania</label>
-              <input
-                value={form.date}
-                type="text"
-                className="form-control"
-                name="date"
-                placeholder="Podaj datę wydania.."
-                onChange={inputOnChange}
-              />
               <br />
-            </div>
+              <TextField
+                id="date"
+                type="date"
+                onChange={(event: any) => {
+                  setBirthDate(event.target.value);
+                  form.date = event.target.value;
 
+                  console.log(event.target.value);
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </div>
+            <br />
             <div className="form-group">
-              <label className="custom-control-label">
-                Książka wydrukowana...{" "}
-              </label>
               <input
                 className="bg-primary custom-control custom-checkbox"
                 type="checkbox"
@@ -163,6 +147,9 @@ function AddBook(props: any) {
                 name="released"
                 onChange={inputOnChange}
               />
+              <span className="custom-control-label m-2">
+                Książka wydrukowana
+              </span>
               <br />
               <br />
             </div>

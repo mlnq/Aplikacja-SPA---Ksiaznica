@@ -11,6 +11,7 @@ import AddBook from "./components/Books/Book/AddBook"
 import EditBook from './components/Books/Book/EditBook';
 import DetailsBook from './components/Books/Book/DetailsBook';
 
+
 function App() {
 
   const [booksData, setBooksData] = useState<any[]>([]);
@@ -160,7 +161,7 @@ function App() {
       </Route>
 
       <Route path="/DetailsBook/:id">
-                <DetailsBook addBook={addBookData}></DetailsBook>
+                <DetailsBook></DetailsBook>
       </Route>
      
 
