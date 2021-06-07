@@ -1,86 +1,85 @@
-import { stringify } from "querystring";
 import { useState, useEffect } from "react";
 import styles from "./Book.module.css";
-import {useHistory} from 'react-router-dom'
-import Rating from 'react-simple-star-rating'
+import { useHistory } from "react-router-dom";
+import * as Icon from "react-bootstrap-icons";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import { withStyles } from "@material-ui/core/styles";
+import Rating, { IconContainerProps } from "@material-ui/lab/Rating";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import StarsRoundedIcon from "@material-ui/icons/StarsRounded";
 
-function AddBook(props:any) {
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import { Controller } from "react-hook-form";
 
-  const history = useHistory(); 
+function AddBook(props: any) {
+  const history = useHistory();
   const [button, setButton] = useState(false);
+  const [starRate, setRating] = useState(1);
 
   const [form, setForm] = useState({
     title: "",
     author: "",
-    rating: 1,
     date: "01.01.0001",
-    released:  "",
+    released: "",
     description: "",
+    rating: starRate,
   });
 
+  const inputOnChange = (e: any) => {
+    const { name, value } = e.target;
+    let val = value;
+    if (e.target.type === "number") val = Number(val);
+    setForm((prev) => ({
+      ...prev,
+      [name]: val,
+    }));
+  };
+
   useEffect(() => {
-    if(form.title.length > 4 && form.author.length !== 0 && form.rating > 0 && form.rating <=10
-      && form.description.length > 30){
-        setButton(true);
-      }else{
-        setButton(false);
-      }
-  }, [form])
+    if (
+      form.title.length > 4 &&
+      form.author.length !== 0 &&
+      form.rating > 0 &&
+      form.rating <= 10 &&
+      form.description.length > 30
+    ) {
+      setButton(true);
+    } else {
+      setButton(false);
+    }
+  }, [form]);
 
   const submit = (e: any) => {
     e.preventDefault();
     props.addBook(form);
     history.push("/");
   };
-  const inputOnChange = (e: any) => {
-      const {name,value} = e.target;
-      let val =value;
-      if(e.target.type==="number") val= Number(val);
-      setForm(prev => ({
-          ...prev,
-          [name]: val
-      }));
-  };
 
- 
-  // Catch Rating value
-  const handleRating = (e:any) => {
-    const {name,value} = e.target;
-    let val =value;
-    setForm(prev => ({
-        ...prev,
-        [name]: val
-    }));
-    // Some logic
-  }
-  
+  const StyledRating = withStyles({
+    iconFilled: {
+      color: "#ff6d75",
+    },
+    iconHover: {
+      color: "#ff3d47",
+    },
+  })(Rating);
+
   return (
-    <>
+    <div>
       <h1 className="header"> Dodaj książkę</h1>
 
       <div className={`card ${styles.hotel}`}>
         <div className="card-body">
           <form onSubmit={submit}>
             <div className="form-group">
-
-            <Rating
-              onClick={handleRating}
-              ratingValue={form.rating}
-              size={30}
-              stars={10}
-              transition
-              fillColor="#0c6d38"
-              emptyColor='gray'
-              className='foo' // Will remove the inline style if applied
-            />
-            <br />
-
-
               <label>Nazwa książki</label>
               <input
                 value={form.title}
                 type="text"
-                className={`form-control ${form.title.length > 4 ? 'is-valid' : 'is-invalid'} `}
+                className={`form-control ${
+                  form.title.length > 4 ? "is-valid" : "is-invalid"
+                } `}
                 name="title"
                 placeholder="Wprowadź tytuł książki.."
                 onChange={inputOnChange}
@@ -94,12 +93,16 @@ function AddBook(props:any) {
               <input
                 value={form.author}
                 type="text"
-                className={`form-control ${form.author.length !== 0 ? 'is-valid' : 'is-invalid'}`}
+                className={`form-control ${
+                  form.author.length !== 0 ? "is-valid" : "is-invalid"
+                }`}
                 name="author"
                 placeholder="Wprowadź nazwę autora"
                 onChange={inputOnChange}
               />
-              <div className="invalid-feedback">Wymagane jest imię i nazwisko autora!</div>
+              <div className="invalid-feedback">
+                Wymagane jest imię i nazwisko autora!
+              </div>
               <div className="valid-feedback">Wszystko jest w porządku!</div>
               <br />
             </div>
@@ -114,6 +117,20 @@ function AddBook(props:any) {
                 onChange={inputOnChange}
                 pattern="[0-9]*"
               /> */}
+
+              <Box component="fieldset" mb={3} borderColor="transparent">
+                <StyledRating
+                  name="customized-10"
+                  max={10}
+                  value={starRate}
+                  precision={0.5}
+                  onChange={(e, value: any) => {
+                    setRating(value);
+                    form.rating = value;
+                   
+                  }}  
+                />
+              </Box>
               <div className="invalid-feedback">Niepoprawna ocena ksiażki!</div>
               <div className="valid-feedback">Wszystko jest w porządku!</div>
               <br />
@@ -142,7 +159,6 @@ function AddBook(props:any) {
                 className="bg-primary custom-control custom-checkbox"
                 type="checkbox"
                 value="published"
-
                 checked={form.released === "published"}
                 name="released"
                 onChange={inputOnChange}
@@ -155,22 +171,32 @@ function AddBook(props:any) {
               <label>Wprowadź opis książki</label>
               <textarea
                 value={form.description}
-                className={`form-control ${form.description.length > 30 ? 'is-valid' : 'is-invalid'}`}
+                className={`form-control ${
+                  form.description.length > 30 ? "is-valid" : "is-invalid"
+                }`}
                 name="description"
                 onChange={inputOnChange}
               />
-              <div className="invalid-feedback">Wyagany jest nawet krótki opis książki!</div>
+              <div className="invalid-feedback">
+                Wyagany jest nawet krótki opis książki!
+              </div>
               <div className="valid-feedback">Wszystko jest w porządku!</div>
 
               <br />
             </div>
 
             <br />
-            <button className={`btn btn-primary ${button === false ? "disabled" : null }`}>Dodaj książkę</button>
+            <button
+              className={`btn btn-primary ${
+                button === false ? "disabled" : null
+              }`}
+            >
+              Dodaj książkę
+            </button>
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

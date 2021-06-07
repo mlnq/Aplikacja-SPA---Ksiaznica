@@ -49,6 +49,7 @@ function App() {
     switch (action) {
       case "PUSH":
         setBooksData(() => {
+
           let list = booksData;
           let id = calcBookId();
           debugger;
