@@ -1,29 +1,23 @@
 import {Link} from 'react-router-dom'
+import * as Icon from 'react-bootstrap-icons';
+import styles from './Header.module.scss'
 
 function Header(props: any) {
   return (
-    <div className="container mb-5 mt-4">
-      <div className="row align-items-center">
-          <ul className="nav ">
-            <Link to={'/'}>
-                <p className="navbar-brand text-primary text-decoration-none" >
-                  Książnica
-                </p>
+    <div className="container mb-5 mt-4 d-flex">
+      <div className="row justify-content-center">
+          <ul className={`nav text-center `}>
+            <Link className={`${styles.logo}`} to={'/'} >
+                <li >
+                    <p className={`h2 ${styles.title}`}><Icon.Book size={60}/><span> Książnica</span></p>
+                </li>
             </Link>
 
             <li className="nav-item text-secondary">
-                <a className="nav-link active" aria-current="page" href="#">Active</a>
-            </li>
-            <li className="nav-item text-secondary">
-                <a className="nav-link" href="#">Cośtam</a>
-            </li>
-            <li className="nav-item text-secondary" >
-                <a className="nav-link" href="#">Cośtam</a>
-            </li>
-            <li className="nav-item text-secondary">
-                <a className="nav-link disabled" href="#"aria-disabled="true">W krótce ...</a>
+                <p className="h4">βeta</p>
             </li>
             </ul>
+
 
        
       </div>

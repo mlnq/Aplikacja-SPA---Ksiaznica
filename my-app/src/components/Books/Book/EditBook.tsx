@@ -6,19 +6,27 @@ import { useEffect } from 'react';
 
 function EditBook(props: any) {
   const history = useHistory(); 
-
+  const [button, setButton] = useState(false);
   const {id}: any = useParams();
 
   //stany
   const [form, setForm] = useState({
       title: "",
       author: "",
-      rating: "",
+      rating: 0,
       date: "",
       released:  "",
       description: "",
     });
     
+    useEffect(() => {
+      if(form.title.length > 4 && form.author.length !== 0 && form.rating > 0 && form.rating <=10
+        && form.description.length > 30){
+          setButton(true);
+        }else{
+          setButton(false);
+        }
+    }, [form])
   //   const fetchBook =  async () =>{
       
   //     // let res = await getBookById(id);
@@ -63,11 +71,13 @@ function EditBook(props: any) {
                 <input
                   value={form.title}
                   type="text"
-                  className="form-control"
+                  className={`form-control ${form.title.length > 4 ? 'is-valid' : 'is-invalid'} `}
                   name="title"
                   placeholder="Wprowadź tytuł książki.."
                   onChange={inputOnChange}
                 />
+                <div className="invalid-feedback">Za krótki tytuł książki!</div>
+                <div className="valid-feedback">Wszystko jest w porządku!</div>
                 <br />
               </div>
               <div className="form-group">
@@ -75,11 +85,13 @@ function EditBook(props: any) {
                 <input
                   value={form.author}
                   type="text"
-                  className="form-control"
+                  className={`form-control ${form.author.length !== 0 ? 'is-valid' : 'is-invalid'}`}
                   name="author"
                   placeholder="Wprowadź nazwę autora"
                   onChange={inputOnChange}
                 />
+                <div className="invalid-feedback">Wymagane jest imię i nazwisko autora!</div>
+                <div className="valid-feedback">Wszystko jest w porządku!</div>
                 <br />
               </div>
               <div className="form-group">
@@ -87,12 +99,14 @@ function EditBook(props: any) {
                 <input
                   value={form.rating}
                   type="number"
-                  className="form-control"
+                  className={`form-control ${form.rating > 0 && form.rating <=10 ? 'is-valid' : 'is-invalid'}`}
                   name="rating"
                   placeholder="Oceń książkę.."
                   onChange={inputOnChange}
                   pattern="[0-9]*"
                 />
+                <div className="invalid-feedback">Niepoprawna ocena ksiażki!</div>
+                <div className="valid-feedback">Wszystko jest w porządku!</div>
                 <br />
               </div>
               {/* zrobic eleganckie input na date moze callendar component?
@@ -132,16 +146,17 @@ function EditBook(props: any) {
                 <label>Wprowadź opis książki</label>
                 <textarea
                   value={form.description}
-                  className="form-control"
+                  className={`form-control ${form.description.length > 30 ? 'is-valid' : 'is-invalid'}`}
                   name="description"
                   onChange={inputOnChange}
                 />
-  
+                <div className="invalid-feedback">Wyagany jest nawet krótki opis książki!</div>
+                <div className="valid-feedback">Wszystko jest w porządku!</div>
                 <br />
               </div>
   
               <br />
-              <button className="btn btn-primary">Dodaj książkę</button>
+              <button className={`btn btn-primary ${button === false ? "disabled" : null }`}>Zapisz książkę</button>
             </form>
           </div>
         </div>

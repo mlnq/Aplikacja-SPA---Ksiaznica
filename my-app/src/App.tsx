@@ -21,17 +21,17 @@ function App() {
   useEffect(() => 
   {
 
-    getAllBooks().then(data=> setBooksData(data));
+   // getAllBooks().then(data=> setBooksData(data));
 
      
-  //   if(booksData.length ===  0)
-  //   (
-  //    async ()=> { 
-  //      setBooksData([...(await getAllBooks())]);
-  //     }
-  //  )()
+    if(booksData.length ===  0)
+    (
+     async ()=> { 
+       setBooksData([...(await getAllBooks())]);
+      }
+   )()
     console.log("komponent zamontowany");
-  },[]);
+  },[booksData]);
 
 
   const calcBookId = () => {

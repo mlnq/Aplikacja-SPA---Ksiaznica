@@ -77,8 +77,8 @@ function DetailsBook(props:any){
                   </div>
       
                   <div className="form-group">
-                    <label>Opis książki</label>
-                    <span>{form.description}</span>   
+                    <label>Opis książki: </label>
+                    <span>{" " + form.description}</span>   
                     <br />
                     <Link to={'/'}><button type="button" className="btn btn-primary mb-5"> Powrót </button></Link>
                   </div>
