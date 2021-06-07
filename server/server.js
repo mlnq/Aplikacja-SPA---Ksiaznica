@@ -32,8 +32,10 @@ app.get('/books', (req, res) => {
     });
 });
 
+
+
 //BOOKS GET: id 
-app.get('/book/:id', (req, res) => {
+app.get('/books/:id', (req, res) => {
     fs.readFile('./books.json', 'utf8', (err, ordersJson) => {
         if (err) {
             console.log("File read failed in GET /books/" + req.params.id + ": "+ err);
@@ -53,8 +55,8 @@ app.get('/book/:id', (req, res) => {
     });
 });
 
-//BOOK APP- POST:
-app.post('/book', (req, res) => {
+//BOOK ADD- POST:
+app.post('/books', (req, res) => {
     fs.readFile('./books.json', 'utf8', (err, ordersJson) => {
         if (err) {
             console.log("File read failed in POST /books: "+ err);
@@ -84,7 +86,7 @@ app.post('/book', (req, res) => {
 });
 
 //BOOK EDIT:
-app.put('/book/:id', (req, res) => {
+app.put('/books/:id', (req, res) => {
     fs.readFile('./books.json', 'utf8', (err, ordersJson) => {
         if (err) {
             console.log("File read failed in PUT /books/" + req.params.id+": "+ err);
@@ -102,7 +104,7 @@ app.put('/book/:id', (req, res) => {
         if (!order) {
             orders.push(req.body);
             var newList = JSON.stringify(orders);
-            fs.writeFile('./orders.json', newList, err => {
+            fs.writeFile('./books.json', newList, err => {
                 if (err) {
                     console.log("Error writing file in PUT /orders/" + req.params.id+": "+err);
                     res.status(500).send('Error writing file orders.json');
@@ -118,13 +120,13 @@ app.put('/book/:id', (req, res) => {
                 }
             }
             var newList = JSON.stringify(orders);
-            fs.writeFile('./orders.json', newList, err => {
+            fs.writeFile('./books.json', newList, err => {
                 if (err) {
                     console.log("Error writing file in PUT /orders/" + req.params.id+": "+ err);
-                    res.status(500).send('Error writing file orders.json');
+                    res.status(500).send('Error writing file books.json');
                 } else {
                     res.status(200).send(req.body);
-                    console.log("Successfully wrote file orders.json and edit order with old id = " + req.params.id);
+                    console.log("Successfully wrote file books.json and edit order with old id = " + req.params.id);
                 }
             });
         }
@@ -133,7 +135,7 @@ app.put('/book/:id', (req, res) => {
 
 //BOOK DELETE
 app.delete('/book/:id', (req, res) => {
-    fs.readFile('./orders.json', 'utf8', (err, ordersJson) => {
+    fs.readFile('./books.json', 'utf8', (err, ordersJson) => {
         if (err) {
             console.log("File read failed in DELETE /orders: "+ err);
             res.status(500).send('File read failed');
@@ -144,7 +146,7 @@ app.delete('/book/:id', (req, res) => {
         if (orderIndex != -1) {
             orders.splice(orderIndex, 1);
             var newList = JSON.stringify(orders);
-            fs.writeFile('./orders.json', newList, err => {
+            fs.writeFile('./books.json', newList, err => {
                 if (err) {
                     console.log("Error writing file in DELETE /orders/" + req.params.id+": "+ err);
                     res.status(500).send('Error writing file orders.json');

@@ -6,6 +6,20 @@
 .imgSize{
     width: 10px;
     height: 10px;
+}
 
+.pointer{
+    cursor: pointer !important;
+}
+.center{
+    display: flex;
+    justify-content: center;
+}
 
+.inlineFlex{
+    /* justify-content: center; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;   
+    justify-content: space-between;
 }
