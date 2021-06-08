@@ -23,14 +23,14 @@ function Hotel(props: any) {
     },
   })(Rating);
 
-  const imageURL =
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png";
+  // const imageURL =
+  //   "https://placeimg.com/400/200/1";
   return (
     <div className={`card ${styles.hotel}`}>
       <div className="card-body">
         <div className={` row`}>
           <div className="col-4">
-            {/* <img src={imageURL} alt="" className={`${styles.imgSize} img-fluid img-thumbnail`} /> */}
+            <img src={props.imgURL} alt="" className={`${styles.imgSize} img-fluid img-thumbnail`} />
           </div>
           <div className="col-8">
             <div className="row">
@@ -77,7 +77,6 @@ function Hotel(props: any) {
           </div>
           <div className="col-12">
             <p className={styles.description}>
-              $
               {props.description.length > 100
                 ? props.description.substring(0, 100) + "..."
                 : props.description}

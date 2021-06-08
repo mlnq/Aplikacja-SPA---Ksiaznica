@@ -25,3 +25,9 @@
 .marginRight{
     margin-right: 10px;
 }
+
+.imgSize{
+    width: 400px;
+    height: 200px;
+    object-fit: cover;
+}

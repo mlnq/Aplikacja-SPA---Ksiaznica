@@ -10,11 +10,17 @@ import { useState, useEffect } from 'react';
 import AddBook from "./components/Books/Book/AddBook"
 import EditBook from './components/Books/Book/EditBook';
 import DetailsBook from './components/Books/Book/DetailsBook';
-
+import { AuthContext } from './context/authContext'
+import { createContext, useContext } from 'react';
 
 function App() {
+  
 
+  
+  
   const [booksData, setBooksData] = useState<any[]>([]);
+  const [isAuthenticatedState, setIsAuthenticatedState] = useState<boolean>(false);
+  const auth = useContext(AuthContext);
   
 
   //@TODO PROBLEM z SEARCH -- zapisywanie stanu poprzedniego
@@ -144,11 +150,33 @@ function App() {
 
 
   return (  
+
+    <AuthContext.Provider 
+     value={{
+       
+       
+       login: () => 
+       {
+        setIsAuthenticatedState( true);
+      },
+      logout: () =>
+      {
+         setIsAuthenticatedState(false);
+         
+       },
+       Authenticated: isAuthenticatedState
+      //  logout: () => {
+      //    setIsAuthenticatedState(false);
+      //   },
+    }}
+    
+    >
     <Router>
     <div className="App">
       <Header  />
       
       <Route exact path="/">
+           
             <Books books={booksData} deleteBookData={deleteBookData} setBooks={setBooksData} onSearch={searchHandler}/>
       </Route>
 
@@ -169,7 +197,11 @@ function App() {
     </div>
       <Footer />
     </Router>
+    </AuthContext.Provider>
+
   );
 }
 
 export default App;
+
+

@@ -1,11 +1,15 @@
 import Book from "./Book/Book";
 import styles from "./Books.module.css";
 import { Link, Route } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Searchbar from "./Searchbar/Searchbar";
 import * as Icon from "react-bootstrap-icons";
+import { AuthContext } from '../../context/authContext'
 
 function Books(props: any) {
+  
+  const auth = useContext(AuthContext);
+
   const [sortRating, setSortRating] = useState(true);
   const [sortTitle, setSortTitle] = useState(true);
 
@@ -116,6 +120,8 @@ function Books(props: any) {
             <Icon.PlusSquare size={25} /> Dodaj książkę{" "}
           </button>
         </Link>
+
+
         <h3 className={`${styles.right} m-0`}>
           <span className="badge bg-dark"> Sortuj</span>
           {ratingSort()}
@@ -129,6 +135,7 @@ function Books(props: any) {
           deleteBookData={props.deleteBookData}
           key={b.bookId}
           {...b}
+          imgURL={`https://placeimg.com/400/200/${b.bookId}`}
         />
       ))}
     </div>

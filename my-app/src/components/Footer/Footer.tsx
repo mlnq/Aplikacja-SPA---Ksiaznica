@@ -1,7 +1,7 @@
 function Footer(props:any){
     return(
         <div className="Footer">
-            <p>Privacy</p>
+            <p>Stopka która lata</p>
         </div>
         
     );

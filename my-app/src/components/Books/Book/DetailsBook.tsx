@@ -39,64 +39,87 @@ function DetailsBook(props: any) {
       <h1 className="header">Detale książki</h1>
 
       <div className={`card ${styles.hotel}`}>
-        <div className="card-body">
-          <div>
-            <div className="form-group">
-              <label>Nazwa książki: </label>
-              <span>{form.title}</span>
-              <br />
-            </div>
-            <div className="form-group">
-              <label>Autor</label>
-              <span>{form.author}</span>
-              <br />
-            </div>
-            <div className="form-group">
-              <Box component="fieldset" mb={3} borderColor="transparent">
-                <Typography component="legend">Ocena</Typography>
-                <StyledRating
-                  precision={0.5}
-                  name="read-only"
-                  max={10}
-                  value={form.rating}
-                  readOnly
-                />
-              </Box>
-            </div>
-            {/* zrobic eleganckie span na date moze callendar component?
-             */}
-
-            <div className="form-group">
-              <label>Data wydania</label>
-              <span>{form.date}</span>
-              <br />
-            </div>
-
-            <div className="form-group">
-              <label className="custom-control-label">
-                Czy książka została wydana ? :
-              </label>
-              <span>
-                {form.released.includes("published")
-                  ? " opublikowany"
-                  : " nieopublikowany"}
-              </span>
-              <br />
-              <br />
-            </div>
-
-            <div className="form-group">
-              <label>Opis książki: </label>
-              <span>{" " + form.description}</span>
-              <br />
-              <Link to={"/"}>
-                <button type="button" className="btn btn-primary mb-5">
-                  {" "}
-                  Powrót{" "}
-                </button>
-              </Link>
+        <div className="card-body d-flex flex-column">
+          <div className="form-group ">
+            <div className="card border-left-info shadow h-80 py-1">
+              <div className="card-body">
+                <h4>Tytuł książki: </h4>
+                <span>{form.title}</span>
+              </div>
             </div>
           </div>
+          <br />
+          <div className="form-group">
+            <div className="card border-left-info shadow h-80 py-1">
+              <div className="card-body">
+                <h4>Autor: </h4>
+                <span>{form.author}</span>
+              </div>
+            </div>
+          </div>
+          <br />
+          </div>
+          <div className="d-flex justify-content-around">
+          <div className="form-group">
+            <div className="card border-left-info shadow h-1 ">
+              <div className="card-body">
+                <Box component="fieldset" mb={3} borderColor="transparent">
+                  <h4>Ocena: </h4>
+                  <StyledRating
+                    precision={0.5}
+                    name="read-only"
+                    max={10}
+                    value={form.rating}
+                    readOnly
+                    size="large"
+                  />
+                </Box>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div className="form-group">
+            <div className="card border-left-info shadow h-100 py-2">
+              <div className="card-body">
+                <h4>Data wydania: </h4>
+                <span>{form.date}</span>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div className="form-group">
+            <div className="card border-left-info shadow h-100 py-2">
+              <div className="card-body">
+                <h4 className="custom-control-label">
+                  Czy książka została wydana ?
+                </h4>
+                <span>
+                  {form.released.includes("published")
+                    ? "Książka opublikowana"
+                    : "Książka nieopublikowana"}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          </div>
+          <div className="d-flex flex-column card-body d-flex">
+          <br />
+          <div className="form-group">
+            <div className="card border-left-info shadow h-100 py-1 ">
+              <div className="card-body">
+                <h4>Opis książki: </h4>
+                <span>{" " + form.description}</span>
+              </div>
+            </div>
+          </div>
+          <br />
+          <Link to={"/"}>
+            <button type="button" className="btn btn-primary mb-5 mt-3">
+              {" "}
+              Powrót{" "}
+            </button>
+          </Link>
         </div>
       </div>
     </>
